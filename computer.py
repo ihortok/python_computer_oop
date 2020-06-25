@@ -68,17 +68,19 @@ class Computer:
     def open_file(self, filename):
         if self.turned_on:
             self.logger.append("'" + filename + "' is opening. Please, wait")
-            if filename in files:
-                self.open_programs.append(filename)
-                self.logger.append("'" + filename + "' is open now")
-                return
+            if len(self.files) > 0:
+                for file in self.files:
+                    if file['name'] == filename:
+                        self.open_programs.append(filename)
+                        return self.logger.append("'" + filename + "' is open now")
             self.logger.append("'" + filename + "' does not exist on your computer")
 
     def close_file(self, filename):
         if self.turned_on:
             self.logger.append("'" + filename + "' is closing...")
-            if filename in open_programs:
+            if filename in self.open_programs:
                 self.open_programs.remove(filename)
-                self.logger.append("'" + filename + "' has been closed")
-                return
+                return self.logger.append("'" + filename + "' has been closed")
+            else:
+                return self.logger.append("'" + filename + "' is not open")
             self.logger.append("'" + filename + "' does not exist on your computer")
