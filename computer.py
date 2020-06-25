@@ -35,8 +35,11 @@ class Computer:
     def create_file(self, filename):
         if self.turned_on:
             self.logger.append("Creating a file '" + str(filename) + "'...")
-            self.files.append(str(filename))
-            self.logger.append("New file '" + str(filename) + "' has been created")
+            if str(filename) not in self.files:
+                self.files.append(str(filename))
+                self.logger.append("New file '" + str(filename) + "' has been created")
+                return
+            self.logger.append("'" + filename + "' already exists on your computer")
 
     def delete_file(self, filename):
         if self.turned_on:
@@ -45,13 +48,16 @@ class Computer:
                 self.files.remove(str(filename))
                 self.logger.append("'" + str(filename) + "' has been removed from your computer")
                 return
-            self.logger.append("'" + filename + "' does not exist at your computer")
+            self.logger.append("'" + filename + "' does not exist on your computer")
 
     def install_game(self, game):
         if self.turned_on:
             self.logger.append("'" + str(game) + "' is installing. Please, wait")
-            self.games.append(str(game))
-            self.logger.append("New game '" + str(game) + "' has been installed")
+            if str(game) not in self.games:
+                self.games.append(str(game))
+                self.logger.append("New game '" + str(game) + "' has been installed")
+                return
+            self.logger.append("'" + game + "' is already installed on your computer")
 
     def delete_game(self, game):
         if self.turned_on:
@@ -60,7 +66,7 @@ class Computer:
                 self.games.remove(str(game))
                 self.logger.append("'" + str(game) + "' has been removed from your computer")
                 return
-            self.logger.append("'" + game + "' does not exist at your computer")
+            self.logger.append("'" + game + "' does not exist on your computer")
     
     def open_application(self, app_name):
         if self.turned_on:
@@ -69,7 +75,7 @@ class Computer:
                 self.open_apps.append(app_name)
                 self.logger.append("'" + app_name + "' is open now")
                 return
-            self.logger.append("'" + app_name + "' does not exist at your computer")
+            self.logger.append("'" + app_name + "' does not exist on your computer")
 
     def close_app(self, app_name):
         if self.turned_on:
@@ -78,4 +84,4 @@ class Computer:
                 self.open_apps.remove(app_name)
                 self.logger.append("'" + app_name + "' has been closed")
                 return
-            self.logger.append("'" + app_name + "' does not exist at your computer")
+            self.logger.append("'" + app_name + "' does not exist on your computer")
