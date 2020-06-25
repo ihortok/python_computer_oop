@@ -55,6 +55,8 @@ class Computer:
     def delete_file(self, filename):
         if self.turned_on:
             self.logger.append("Removing a file '" + str(filename) + "'...")
+            if filename in self.open_programs:
+                return self.logger.append("'" + filename + "' is open. Please, close it before deleting")
             if len(self.files) > 0:
                 for file in self.files:
                     if file['name'] == filename:
