@@ -55,28 +55,30 @@ class Computer:
     def delete_file(self, filename):
         if self.turned_on:
             self.logger.append("Removing a file '" + str(filename) + "'...")
-            if str(filename) in self.files:
-                self.files.remove(str(filename))
-                self.storage.used_memory -= file_size
-                free_space = self.storage.memory - self.storage.used_memory
-                self.logger.append("'" + str(filename) + "' has been removed from your computer")
-                return
+            if len(self.files) > 0:
+                for file in self.files:
+                    if file['name'] == filename:
+                        self.files.remove(file)
+                        self.storage.used_memory -= file['size']
+                        free_space = self.storage.memory - self.storage.used_memory
+                        self.logger.append("'" + str(filename) + "' has been removed from your computer")
+                        return self.logger.append(str(file['size']) + " MB of memory freed. Free space: " + str(free_space) + " MB")
             self.logger.append("'" + filename + "' does not exist on your computer")
     
-    def open_file(self, file_name):
+    def open_file(self, filename):
         if self.turned_on:
-            self.logger.append("'" + file_name + "' is opening. Please, wait")
-            if file_name in files:
-                self.open_programs.append(file_name)
-                self.logger.append("'" + file_name + "' is open now")
+            self.logger.append("'" + filename + "' is opening. Please, wait")
+            if filename in files:
+                self.open_programs.append(filename)
+                self.logger.append("'" + filename + "' is open now")
                 return
-            self.logger.append("'" + file_name + "' does not exist on your computer")
+            self.logger.append("'" + filename + "' does not exist on your computer")
 
-    def close_file(self, file_name):
+    def close_file(self, filename):
         if self.turned_on:
-            self.logger.append("'" + file_name + "' is closing...")
-            if file_name in open_programs:
-                self.open_programs.remove(file_name)
-                self.logger.append("'" + file_name + "' has been closed")
+            self.logger.append("'" + filename + "' is closing...")
+            if filename in open_programs:
+                self.open_programs.remove(filename)
+                self.logger.append("'" + filename + "' has been closed")
                 return
-            self.logger.append("'" + file_name + "' does not exist on your computer")
+            self.logger.append("'" + filename + "' does not exist on your computer")
