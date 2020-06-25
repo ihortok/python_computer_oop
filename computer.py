@@ -34,7 +34,7 @@ class Computer:
     def create_file(self, filename, file_size):
         if self.turned_on:
             self.logger.append("Creating a file '" + str(filename) + "'...")
-            if self.storage.used_memory + file_size < self.storage.memory:
+            if self.storage.used_memory + file_size <= self.storage.memory:
                 if len(self.files) > 0:
                     for file in self.files:
                         if file['name'] == filename:
