@@ -1,8 +1,7 @@
 class Computer:
     turned_on = False
-    open_apps = []
+    open_programs = []
     files = []
-    games = []
     logger = []
 
     def __init__(self, processor, ram, storage, display, keyboard, mouse):
@@ -32,56 +31,52 @@ class Computer:
             self.turned_on = False
             self.logger.append("Good buy!")
 
-    def create_file(self, filename):
+    def create_file(self, filename, file_size):
         if self.turned_on:
             self.logger.append("Creating a file '" + str(filename) + "'...")
-            if str(filename) not in self.files:
-                self.files.append(str(filename))
-                self.logger.append("New file '" + str(filename) + "' has been created")
-                return
-            self.logger.append("'" + filename + "' already exists on your computer")
+            if self.storage.used_memory + file_size < self.storage.memory:
+                if len(self.files) > 0:
+                    for file in self.files:
+                        if file['name'] == filename:
+                            return self.logger.append("'" + filename + "' already exists on your computer")
+                    self.save_file(filename, file_size)
+                else:
+                    self.save_file(filename, file_size)
+            else:
+                self.logger.append("Not enough memory. You can remove something to free some space")
 
+    def save_file(self, filename, file_size):
+        self.files.append({'name': filename, 'size': file_size})
+        self.storage.used_memory += file_size
+        free_space = self.storage.memory - self.storage.used_memory
+        self.logger.append("New file '" + str(filename) + "' has been created")
+        self.logger.append(str(file_size) + " MB of memory used. Free space: " + str(free_space) + " MB")
+    
     def delete_file(self, filename):
         if self.turned_on:
             self.logger.append("Removing a file '" + str(filename) + "'...")
             if str(filename) in self.files:
                 self.files.remove(str(filename))
+                self.storage.used_memory -= file_size
+                free_space = self.storage.memory - self.storage.used_memory
                 self.logger.append("'" + str(filename) + "' has been removed from your computer")
                 return
             self.logger.append("'" + filename + "' does not exist on your computer")
-
-    def install_game(self, game):
-        if self.turned_on:
-            self.logger.append("'" + str(game) + "' is installing. Please, wait")
-            if str(game) not in self.games:
-                self.games.append(str(game))
-                self.logger.append("New game '" + str(game) + "' has been installed")
-                return
-            self.logger.append("'" + game + "' is already installed on your computer")
-
-    def delete_game(self, game):
-        if self.turned_on:
-            self.logger.append("Removing a game '" + str(game) + "'...")
-            if str(game) in self.games:
-                self.games.remove(str(game))
-                self.logger.append("'" + str(game) + "' has been removed from your computer")
-                return
-            self.logger.append("'" + game + "' does not exist on your computer")
     
-    def open_application(self, app_name):
+    def open_file(self, file_name):
         if self.turned_on:
-            self.logger.append("'" + app_name + "' is opening. Please, wait")
-            if app_name in files or app_name in games:
-                self.open_apps.append(app_name)
-                self.logger.append("'" + app_name + "' is open now")
+            self.logger.append("'" + file_name + "' is opening. Please, wait")
+            if file_name in files:
+                self.open_programs.append(file_name)
+                self.logger.append("'" + file_name + "' is open now")
                 return
-            self.logger.append("'" + app_name + "' does not exist on your computer")
+            self.logger.append("'" + file_name + "' does not exist on your computer")
 
-    def close_app(self, app_name):
+    def close_file(self, file_name):
         if self.turned_on:
-            self.logger.append("'" + app_name + "' is closing...")
-            if app_name in open_apps:
-                self.open_apps.remove(app_name)
-                self.logger.append("'" + app_name + "' has been closed")
+            self.logger.append("'" + file_name + "' is closing...")
+            if file_name in open_programs:
+                self.open_programs.remove(file_name)
+                self.logger.append("'" + file_name + "' has been closed")
                 return
-            self.logger.append("'" + app_name + "' does not exist on your computer")
+            self.logger.append("'" + file_name + "' does not exist on your computer")
