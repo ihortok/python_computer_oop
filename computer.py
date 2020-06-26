@@ -39,9 +39,7 @@ class Computer:
                     for file in self.files:
                         if file['name'] == filename:
                             return self.logger.append("'" + filename + "' already exists on your computer")
-                    self.save_file(filename, file_size)
-                else:
-                    self.save_file(filename, file_size)
+                self.save_file(filename, file_size)
             else:
                 self.logger.append("Not enough memory. You can remove something to free some space")
 
