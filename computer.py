@@ -29,6 +29,7 @@ class Computer:
         if self.turned_on:
             self.logger.append("Turning off...")
             self.turned_on = False
+            self.open_programs = []
             self.logger.append("Good buy!")
 
     def create_file(self, filename, file_size):
