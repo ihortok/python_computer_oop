@@ -15,7 +15,7 @@ class Computer:
     def start(self):
         if len(self.logger) > 0:
             for log in self.logger:
-                print log + ';'
+                self.display.show(log)
             return
         print 'No action has been added'
 
